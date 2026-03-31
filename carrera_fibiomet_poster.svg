@@ -1,0 +1,389 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 1100" width="800" height="1100">
+  <!-- Background -->
+  <rect width="800" height="1100" fill="#5B4FCF"/>
+
+  <!-- Sky area - lighter purple strip at top -->
+  <rect width="800" height="280" fill="#FFFFFF" opacity="0.08"/>
+
+  <!-- === CITYSCAPE BACKGROUND - Polanco/Reforma skyline === -->
+
+  <!-- Distant buildings - Polanco area (left/west) -->
+  <rect x="30" y="160" width="45" height="120" fill="#FFFFFF" opacity="0.15"/>
+  <rect x="85" y="140" width="35" height="140" fill="#FFFFFF" opacity="0.12"/>
+  <rect x="128" y="170" width="50" height="110" fill="#FFFFFF" opacity="0.15"/>
+  <rect x="188" y="130" width="30" height="150" fill="#FFFFFF" opacity="0.1"/>
+  <rect x="225" y="155" width="55" height="125" fill="#FFFFFF" opacity="0.13"/>
+
+  <!-- Auditorio Nacional - geometric representation (left side) -->
+  <path d="M60,280 L60,220 Q110,180 160,220 L160,280 Z" fill="#FFFFFF" opacity="0.25"/>
+  <rect x="80" y="230" width="60" height="50" fill="#FFFFFF" opacity="0.18"/>
+
+  <!-- Mid buildings - Reforma corridor -->
+  <rect x="290" y="120" width="40" height="160" fill="#FFFFFF" opacity="0.12"/>
+  <rect x="340" y="100" width="55" height="180" fill="#FFFFFF" opacity="0.15"/>
+  <rect x="405" y="140" width="35" height="140" fill="#FFFFFF" opacity="0.1"/>
+
+  <!-- === ANGEL DE LA INDEPENDENCIA - Main landmark (center) === -->
+  <!-- Column base -->
+  <rect x="470" y="200" width="60" height="16" fill="#F47920"/>
+  <rect x="478" y="120" width="44" height="80" fill="#F47920"/>
+  <rect x="474" y="116" width="52" height="8" fill="#F47920"/>
+  <!-- Column pedestal -->
+  <rect x="462" y="216" width="76" height="24" fill="#F47920"/>
+  <rect x="455" y="240" width="90" height="20" fill="#F47920"/>
+  <rect x="448" y="260" width="104" height="20" fill="#F47920"/>
+  <!-- Angel figure on top - geometric -->
+  <polygon points="500,50 490,116 510,116" fill="#F47920"/>
+  <!-- Wings -->
+  <polygon points="500,65 475,95 492,100" fill="#F47920"/>
+  <polygon points="500,65 525,95 508,100" fill="#F47920"/>
+  <!-- Star/wreath detail -->
+  <circle cx="500" cy="58" r="6" fill="#5B4FCF"/>
+  <circle cx="500" cy="58" r="3" fill="#F47920"/>
+
+  <!-- Buildings east of Angel -->
+  <rect x="570" y="150" width="45" height="130" fill="#FFFFFF" opacity="0.13"/>
+  <rect x="625" y="170" width="35" height="110" fill="#FFFFFF" opacity="0.1"/>
+  <rect x="670" y="145" width="50" height="135" fill="#FFFFFF" opacity="0.15"/>
+  <rect x="730" y="165" width="40" height="115" fill="#FFFFFF" opacity="0.12"/>
+
+  <!-- === STREET MAP - Simplified grid === -->
+
+  <!-- Paseo de la Reforma - wide diagonal boulevard -->
+  <!-- Reforma runs roughly west-to-east with slight angle -->
+  <rect x="0" y="340" width="800" height="60" fill="#FFFFFF" opacity="0.1" rx="2"/>
+
+  <!-- Reforma center median/trees -->
+  <rect x="0" y="365" width="800" height="10" fill="#FFFFFF" opacity="0.06"/>
+
+  <!-- Trees along Reforma (geometric circles) -->
+  <circle cx="50" cy="335" r="12" fill="#FFFFFF" opacity="0.12"/>
+  <circle cx="90" cy="335" r="10" fill="#FFFFFF" opacity="0.1"/>
+  <circle cx="135" cy="335" r="13" fill="#FFFFFF" opacity="0.12"/>
+  <circle cx="178" cy="335" r="11" fill="#FFFFFF" opacity="0.1"/>
+  <circle cx="225" cy="335" r="12" fill="#FFFFFF" opacity="0.12"/>
+  <circle cx="270" cy="335" r="10" fill="#FFFFFF" opacity="0.1"/>
+  <circle cx="315" cy="335" r="13" fill="#FFFFFF" opacity="0.12"/>
+  <circle cx="360" cy="335" r="11" fill="#FFFFFF" opacity="0.1"/>
+  <circle cx="405" cy="335" r="12" fill="#FFFFFF" opacity="0.12"/>
+  <circle cx="450" cy="335" r="10" fill="#FFFFFF" opacity="0.1"/>
+  <circle cx="495" cy="335" r="13" fill="#FFFFFF" opacity="0.12"/>
+  <circle cx="540" cy="335" r="11" fill="#FFFFFF" opacity="0.1"/>
+  <circle cx="585" cy="335" r="12" fill="#FFFFFF" opacity="0.12"/>
+  <circle cx="630" cy="335" r="10" fill="#FFFFFF" opacity="0.1"/>
+  <circle cx="675" cy="335" r="13" fill="#FFFFFF" opacity="0.12"/>
+  <circle cx="720" cy="335" r="11" fill="#FFFFFF" opacity="0.1"/>
+  <circle cx="760" cy="335" r="12" fill="#FFFFFF" opacity="0.12"/>
+
+  <!-- Trees south side of Reforma -->
+  <circle cx="70" cy="405" r="11" fill="#FFFFFF" opacity="0.1"/>
+  <circle cx="120" cy="405" r="12" fill="#FFFFFF" opacity="0.12"/>
+  <circle cx="168" cy="405" r="10" fill="#FFFFFF" opacity="0.1"/>
+  <circle cx="215" cy="405" r="13" fill="#FFFFFF" opacity="0.12"/>
+  <circle cx="265" cy="405" r="11" fill="#FFFFFF" opacity="0.1"/>
+  <circle cx="312" cy="405" r="12" fill="#FFFFFF" opacity="0.12"/>
+  <circle cx="360" cy="405" r="10" fill="#FFFFFF" opacity="0.1"/>
+  <circle cx="408" cy="405" r="13" fill="#FFFFFF" opacity="0.12"/>
+  <circle cx="455" cy="405" r="11" fill="#FFFFFF" opacity="0.1"/>
+  <circle cx="502" cy="405" r="12" fill="#FFFFFF" opacity="0.12"/>
+  <circle cx="550" cy="405" r="10" fill="#FFFFFF" opacity="0.1"/>
+  <circle cx="598" cy="405" r="13" fill="#FFFFFF" opacity="0.12"/>
+  <circle cx="645" cy="405" r="11" fill="#FFFFFF" opacity="0.1"/>
+  <circle cx="692" cy="405" r="12" fill="#FFFFFF" opacity="0.12"/>
+
+  <!-- Calle Florencia - vertical street going south from Reforma -->
+  <rect x="540" y="400" width="30" height="300" fill="#FFFFFF" opacity="0.08"/>
+
+  <!-- Calle Durango - horizontal street -->
+  <rect x="540" y="680" width="260" height="25" fill="#FFFFFF" opacity="0.08"/>
+
+  <!-- Roma Norte grid - residential streets -->
+  <rect x="440" y="440" width="20" height="280" fill="#FFFFFF" opacity="0.05"/>
+  <rect x="620" y="440" width="20" height="280" fill="#FFFFFF" opacity="0.05"/>
+  <rect x="700" y="440" width="20" height="280" fill="#FFFFFF" opacity="0.05"/>
+  <rect x="440" y="500" width="360" height="16" fill="#FFFFFF" opacity="0.05"/>
+  <rect x="440" y="580" width="360" height="16" fill="#FFFFFF" opacity="0.05"/>
+  <rect x="440" y="640" width="360" height="16" fill="#FFFFFF" opacity="0.05"/>
+
+  <!-- Roma Norte buildings - small residential blocks -->
+  <rect x="460" y="450" width="30" height="40" fill="#FFFFFF" opacity="0.08"/>
+  <rect x="500" y="445" width="25" height="45" fill="#FFFFFF" opacity="0.06"/>
+  <rect x="580" y="450" width="28" height="38" fill="#FFFFFF" opacity="0.07"/>
+  <rect x="640" y="448" width="32" height="42" fill="#FFFFFF" opacity="0.08"/>
+  <rect x="465" y="520" width="28" height="50" fill="#FFFFFF" opacity="0.06"/>
+  <rect x="510" y="525" width="22" height="45" fill="#FFFFFF" opacity="0.07"/>
+  <rect x="580" y="518" width="30" height="52" fill="#FFFFFF" opacity="0.06"/>
+  <rect x="640" y="522" width="26" height="48" fill="#FFFFFF" opacity="0.08"/>
+  <rect x="725" y="520" width="30" height="45" fill="#FFFFFF" opacity="0.06"/>
+  <rect x="462" y="600" width="35" height="35" fill="#FFFFFF" opacity="0.07"/>
+  <rect x="582" y="598" width="28" height="38" fill="#FFFFFF" opacity="0.06"/>
+  <rect x="640" y="602" width="32" height="34" fill="#FFFFFF" opacity="0.07"/>
+  <rect x="726" y="598" width="28" height="38" fill="#FFFFFF" opacity="0.06"/>
+  <rect x="580" y="710" width="35" height="30" fill="#FFFFFF" opacity="0.07"/>
+  <rect x="640" y="708" width="28" height="34" fill="#FFFFFF" opacity="0.06"/>
+  <rect x="725" y="712" width="32" height="28" fill="#FFFFFF" opacity="0.07"/>
+
+  <!-- Trees in Roma Norte -->
+  <circle cx="475" cy="490" r="7" fill="#FFFFFF" opacity="0.08"/>
+  <circle cx="530" cy="560" r="8" fill="#FFFFFF" opacity="0.07"/>
+  <circle cx="600" cy="490" r="7" fill="#FFFFFF" opacity="0.08"/>
+  <circle cx="660" cy="560" r="8" fill="#FFFFFF" opacity="0.07"/>
+  <circle cx="740" cy="490" r="7" fill="#FFFFFF" opacity="0.08"/>
+  <circle cx="480" cy="640" r="8" fill="#FFFFFF" opacity="0.07"/>
+  <circle cx="600" cy="640" r="7" fill="#FFFFFF" opacity="0.08"/>
+  <circle cx="660" cy="640" r="8" fill="#FFFFFF" opacity="0.07"/>
+
+  <!-- === ROUTE - Bold orange path === -->
+  <!-- Start marker at Auditorio Nacional -->
+  <circle cx="100" cy="370" r="16" fill="#F47920"/>
+  <circle cx="100" cy="370" r="8" fill="#5B4FCF"/>
+
+  <!-- Route path: Reforma east → Florencia south → Durango east → Trota Café -->
+  <path d="M100,370 L555,370 L555,692 L760,692"
+        fill="none" stroke="#F47920" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>
+
+  <!-- Route direction arrows along the path -->
+  <!-- Arrow on Reforma -->
+  <polygon points="250,358 265,370 250,382" fill="#F47920"/>
+  <polygon points="380,358 395,370 380,382" fill="#F47920"/>
+
+  <!-- Arrow on Florencia going south -->
+  <polygon points="543,520 555,535 567,520" fill="#F47920"/>
+  <polygon points="543,610 555,625 567,610" fill="#F47920"/>
+
+  <!-- Arrow on Durango going east -->
+  <polygon points="650,680 665,692 650,704" fill="#F47920"/>
+  <polygon points="710,680 725,692 710,704" fill="#F47920"/>
+
+  <!-- End marker at Trota Café -->
+  <circle cx="760" cy="692" r="16" fill="#F47920"/>
+  <circle cx="760" cy="692" r="8" fill="#FFFFFF"/>
+
+  <!-- Dotted distance markers along route -->
+  <circle cx="200" cy="370" r="3" fill="#FFFFFF"/>
+  <circle cx="350" cy="370" r="3" fill="#FFFFFF"/>
+  <circle cx="500" cy="370" r="3" fill="#FFFFFF"/>
+  <circle cx="555" cy="500" r="3" fill="#FFFFFF"/>
+  <circle cx="650" cy="692" r="3" fill="#FFFFFF"/>
+
+  <!-- === RUNNERS - Diverse flat geometric figures === -->
+
+  <!-- Runner 1 - on Reforma near start (running right) -->
+  <g transform="translate(160, 340)">
+    <circle cx="0" cy="-18" r="7" fill="#FFFFFF"/>
+    <rect x="-4" y="-11" width="8" height="16" rx="2" fill="#FFFFFF"/>
+    <line x1="-2" y1="5" x2="-8" y2="18" stroke="#FFFFFF" stroke-width="3" stroke-linecap="round"/>
+    <line x1="2" y1="5" x2="10" y2="16" stroke="#FFFFFF" stroke-width="3" stroke-linecap="round"/>
+    <line x1="-3" y1="-5" x2="-10" y2="-1" stroke="#FFFFFF" stroke-width="2.5" stroke-linecap="round"/>
+    <line x1="3" y1="-5" x2="10" y2="-9" stroke="#FFFFFF" stroke-width="2.5" stroke-linecap="round"/>
+  </g>
+
+  <!-- Runner 2 - on Reforma mid (running right, orange) -->
+  <g transform="translate(300, 345)">
+    <circle cx="0" cy="-18" r="7" fill="#F47920"/>
+    <rect x="-4" y="-11" width="8" height="16" rx="2" fill="#F47920"/>
+    <line x1="-2" y1="5" x2="-10" y2="16" stroke="#F47920" stroke-width="3" stroke-linecap="round"/>
+    <line x1="2" y1="5" x2="8" y2="18" stroke="#F47920" stroke-width="3" stroke-linecap="round"/>
+    <line x1="-3" y1="-5" x2="-11" y2="-8" stroke="#F47920" stroke-width="2.5" stroke-linecap="round"/>
+    <line x1="3" y1="-5" x2="9" y2="-1" stroke="#F47920" stroke-width="2.5" stroke-linecap="round"/>
+  </g>
+
+  <!-- Runner 3 - on Reforma near Angel (white) -->
+  <g transform="translate(440, 338)">
+    <circle cx="0" cy="-18" r="7" fill="#FFFFFF"/>
+    <rect x="-4" y="-11" width="8" height="16" rx="2" fill="#FFFFFF"/>
+    <line x1="-2" y1="5" x2="-7" y2="19" stroke="#FFFFFF" stroke-width="3" stroke-linecap="round"/>
+    <line x1="2" y1="5" x2="9" y2="17" stroke="#FFFFFF" stroke-width="3" stroke-linecap="round"/>
+    <line x1="-3" y1="-5" x2="-10" y2="0" stroke="#FFFFFF" stroke-width="2.5" stroke-linecap="round"/>
+    <line x1="3" y1="-5" x2="11" y2="-8" stroke="#FFFFFF" stroke-width="2.5" stroke-linecap="round"/>
+  </g>
+
+  <!-- Runner 4 - turning corner at Florencia (orange) -->
+  <g transform="translate(530, 430)">
+    <circle cx="0" cy="-18" r="7" fill="#F47920"/>
+    <rect x="-4" y="-11" width="8" height="16" rx="2" fill="#F47920"/>
+    <line x1="-2" y1="5" x2="-5" y2="19" stroke="#F47920" stroke-width="3" stroke-linecap="round"/>
+    <line x1="2" y1="5" x2="5" y2="19" stroke="#F47920" stroke-width="3" stroke-linecap="round"/>
+    <line x1="-3" y1="-5" x2="-9" y2="-2" stroke="#F47920" stroke-width="2.5" stroke-linecap="round"/>
+    <line x1="3" y1="-5" x2="6" y2="-10" stroke="#F47920" stroke-width="2.5" stroke-linecap="round"/>
+  </g>
+
+  <!-- Runner 5 - on Florencia heading south (white) -->
+  <g transform="translate(575, 555)">
+    <circle cx="0" cy="-18" r="7" fill="#FFFFFF"/>
+    <rect x="-4" y="-11" width="8" height="16" rx="2" fill="#FFFFFF"/>
+    <line x1="-2" y1="5" x2="-8" y2="17" stroke="#FFFFFF" stroke-width="3" stroke-linecap="round"/>
+    <line x1="2" y1="5" x2="6" y2="19" stroke="#FFFFFF" stroke-width="3" stroke-linecap="round"/>
+    <line x1="-3" y1="-5" x2="-8" y2="-9" stroke="#FFFFFF" stroke-width="2.5" stroke-linecap="round"/>
+    <line x1="3" y1="-5" x2="10" y2="-1" stroke="#FFFFFF" stroke-width="2.5" stroke-linecap="round"/>
+  </g>
+
+  <!-- Runner 6 - on Durango heading east (orange) -->
+  <g transform="translate(620, 665)">
+    <circle cx="0" cy="-18" r="7" fill="#F47920"/>
+    <rect x="-4" y="-11" width="8" height="16" rx="2" fill="#F47920"/>
+    <line x1="-2" y1="5" x2="-9" y2="16" stroke="#F47920" stroke-width="3" stroke-linecap="round"/>
+    <line x1="2" y1="5" x2="10" y2="17" stroke="#F47920" stroke-width="3" stroke-linecap="round"/>
+    <line x1="-3" y1="-5" x2="-10" y2="-1" stroke="#F47920" stroke-width="2.5" stroke-linecap="round"/>
+    <line x1="3" y1="-5" x2="10" y2="-8" stroke="#F47920" stroke-width="2.5" stroke-linecap="round"/>
+  </g>
+
+  <!-- Runner 7 - approaching finish on Durango (white) -->
+  <g transform="translate(720, 660)">
+    <circle cx="0" cy="-18" r="7" fill="#FFFFFF"/>
+    <rect x="-4" y="-11" width="8" height="16" rx="2" fill="#FFFFFF"/>
+    <line x1="-2" y1="5" x2="-7" y2="18" stroke="#FFFFFF" stroke-width="3" stroke-linecap="round"/>
+    <line x1="2" y1="5" x2="9" y2="16" stroke="#FFFFFF" stroke-width="3" stroke-linecap="round"/>
+    <line x1="-3" y1="-5" x2="-9" y2="-8" stroke="#FFFFFF" stroke-width="2.5" stroke-linecap="round"/>
+    <line x1="3" y1="-5" x2="10" y2="-2" stroke="#FFFFFF" stroke-width="2.5" stroke-linecap="round"/>
+  </g>
+
+  <!-- Runner 8 - on Reforma (white, smaller/further back) -->
+  <g transform="translate(220, 380)" opacity="0.7">
+    <circle cx="0" cy="-14" r="5.5" fill="#FFFFFF"/>
+    <rect x="-3" y="-8.5" width="6" height="12" rx="1.5" fill="#FFFFFF"/>
+    <line x1="-1.5" y1="3.5" x2="-6" y2="13" stroke="#FFFFFF" stroke-width="2.2" stroke-linecap="round"/>
+    <line x1="1.5" y1="3.5" x2="7" y2="12" stroke="#FFFFFF" stroke-width="2.2" stroke-linecap="round"/>
+    <line x1="-2" y1="-3" x2="-7" y2="0" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round"/>
+    <line x1="2" y1="-3" x2="8" y2="-5" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round"/>
+  </g>
+
+  <!-- Runner 9 - on Reforma (orange, smaller) -->
+  <g transform="translate(480, 380)" opacity="0.7">
+    <circle cx="0" cy="-14" r="5.5" fill="#F47920"/>
+    <rect x="-3" y="-8.5" width="6" height="12" rx="1.5" fill="#F47920"/>
+    <line x1="-1.5" y1="3.5" x2="-7" y2="12" stroke="#F47920" stroke-width="2.2" stroke-linecap="round"/>
+    <line x1="1.5" y1="3.5" x2="6" y2="14" stroke="#F47920" stroke-width="2.2" stroke-linecap="round"/>
+    <line x1="-2" y1="-3" x2="-8" y2="-6" stroke="#F47920" stroke-width="2" stroke-linecap="round"/>
+    <line x1="2" y1="-3" x2="7" y2="0" stroke="#F47920" stroke-width="2" stroke-linecap="round"/>
+  </g>
+
+  <!-- === DECORATIVE ELEMENTS === -->
+
+  <!-- Wellness/energy burst shapes around the route -->
+  <!-- Small geometric accents -->
+  <circle cx="130" cy="310" r="4" fill="#F47920" opacity="0.5"/>
+  <circle cx="350" cy="305" r="3" fill="#FFFFFF" opacity="0.3"/>
+  <circle cx="500" cy="310" r="4" fill="#F47920" opacity="0.4"/>
+
+  <!-- Abstract energy dots trailing runners -->
+  <circle cx="145" cy="345" r="2.5" fill="#F47920" opacity="0.4"/>
+  <circle cx="138" cy="350" r="2" fill="#F47920" opacity="0.3"/>
+  <circle cx="132" cy="348" r="1.5" fill="#F47920" opacity="0.2"/>
+
+  <circle cx="285" cy="350" r="2.5" fill="#FFFFFF" opacity="0.3"/>
+  <circle cx="278" cy="355" r="2" fill="#FFFFFF" opacity="0.2"/>
+
+  <circle cx="425" cy="343" r="2.5" fill="#FFFFFF" opacity="0.3"/>
+  <circle cx="418" cy="348" r="2" fill="#FFFFFF" opacity="0.2"/>
+
+  <!-- Finish area celebration elements -->
+  <rect x="748" y="660" width="6" height="6" fill="#F47920" opacity="0.5" transform="rotate(45 751 663)"/>
+  <rect x="770" y="670" width="5" height="5" fill="#FFFFFF" opacity="0.4" transform="rotate(45 772.5 672.5)"/>
+  <rect x="740" y="675" width="4" height="4" fill="#F47920" opacity="0.4" transform="rotate(45 742 677)"/>
+  <circle cx="775" y="655" r="3" fill="#FFFFFF" opacity="0.3"/>
+  <circle cx="735" y="665" r="2.5" fill="#F47920" opacity="0.35"/>
+
+  <!-- === BOTTOM SECTION - Large "5K" visual element === -->
+
+  <!-- Curved wave/hill shapes at bottom -->
+  <path d="M0,850 Q200,800 400,830 Q600,860 800,820 L800,1100 L0,1100 Z" fill="#F47920"/>
+
+  <!-- Geometric pattern in orange section -->
+  <circle cx="100" cy="920" r="40" fill="#FFFFFF" opacity="0.1"/>
+  <circle cx="100" cy="920" r="25" fill="#FFFFFF" opacity="0.08"/>
+  <circle cx="700" cy="950" r="50" fill="#5B4FCF" opacity="0.12"/>
+  <circle cx="700" cy="950" r="30" fill="#5B4FCF" opacity="0.08"/>
+
+  <!-- Large 5K distance indicator -->
+  <g transform="translate(400, 960)">
+    <!-- 5 -->
+    <path d="M-100,-60 L-50,-60 L-50,-35 L-95,-35 Q-105,-10 -85,5 Q-60,15 -50,-5 L-50,-15 L-95,-15"
+          fill="none" stroke="#FFFFFF" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"/>
+    <!-- K -->
+    <line x1="20" y1="-60" x2="20" y2="15" stroke="#FFFFFF" stroke-width="10" stroke-linecap="round"/>
+    <line x1="20" y1="-22" x2="70" y2="-60" stroke="#FFFFFF" stroke-width="10" stroke-linecap="round"/>
+    <line x1="20" y1="-22" x2="75" y2="15" stroke="#FFFFFF" stroke-width="10" stroke-linecap="round"/>
+  </g>
+
+  <!-- Running shoe icon near 5K -->
+  <g transform="translate(270, 1010)">
+    <path d="M0,0 Q5,-12 20,-12 L40,-12 Q55,-12 55,0 L60,0 Q65,5 55,8 L-5,8 Q-10,5 -5,0 Z" fill="#FFFFFF" opacity="0.8"/>
+    <circle cx="15" cy="-4" r="2" fill="#F47920"/>
+    <circle cx="25" cy="-4" r="2" fill="#F47920"/>
+    <circle cx="35" cy="-4" r="2" fill="#F47920"/>
+  </g>
+
+  <!-- Running shoe icon 2 -->
+  <g transform="translate(490, 1020)">
+    <path d="M0,0 Q5,-12 20,-12 L40,-12 Q55,-12 55,0 L60,0 Q65,5 55,8 L-5,8 Q-10,5 -5,0 Z" fill="#FFFFFF" opacity="0.8"/>
+    <circle cx="15" cy="-4" r="2" fill="#F47920"/>
+    <circle cx="25" cy="-4" r="2" fill="#F47920"/>
+    <circle cx="35" cy="-4" r="2" fill="#F47920"/>
+  </g>
+
+  <!-- Small decorative triangles/confetti in bottom area -->
+  <polygon points="180,880 190,865 200,880" fill="#FFFFFF" opacity="0.2"/>
+  <polygon points="600,870 610,855 620,870" fill="#5B4FCF" opacity="0.15"/>
+  <polygon points="350,890 358,875 366,890" fill="#FFFFFF" opacity="0.15"/>
+  <rect x="500" y="875" width="8" height="8" fill="#FFFFFF" opacity="0.15" transform="rotate(45 504 879)"/>
+  <rect x="150" y="900" width="6" height="6" fill="#5B4FCF" opacity="0.12" transform="rotate(45 153 903)"/>
+
+  <!-- Additional runners in bottom celebration area -->
+  <!-- Runner silhouette 1 - celebrating at finish -->
+  <g transform="translate(320, 860)">
+    <circle cx="0" cy="-20" r="8" fill="#FFFFFF"/>
+    <rect x="-5" y="-12" width="10" height="18" rx="2" fill="#FFFFFF"/>
+    <line x1="-3" y1="6" x2="-8" y2="22" stroke="#FFFFFF" stroke-width="3.5" stroke-linecap="round"/>
+    <line x1="3" y1="6" x2="8" y2="22" stroke="#FFFFFF" stroke-width="3.5" stroke-linecap="round"/>
+    <!-- Arms raised in celebration -->
+    <line x1="-4" y1="-6" x2="-14" y2="-20" stroke="#FFFFFF" stroke-width="3" stroke-linecap="round"/>
+    <line x1="4" y1="-6" x2="14" y2="-20" stroke="#FFFFFF" stroke-width="3" stroke-linecap="round"/>
+  </g>
+
+  <!-- Runner silhouette 2 - celebrating -->
+  <g transform="translate(480, 850)">
+    <circle cx="0" cy="-20" r="8" fill="#5B4FCF"/>
+    <rect x="-5" y="-12" width="10" height="18" rx="2" fill="#5B4FCF"/>
+    <line x1="-3" y1="6" x2="-9" y2="20" stroke="#5B4FCF" stroke-width="3.5" stroke-linecap="round"/>
+    <line x1="3" y1="6" x2="9" y2="20" stroke="#5B4FCF" stroke-width="3.5" stroke-linecap="round"/>
+    <line x1="-4" y1="-6" x2="-15" y2="-18" stroke="#5B4FCF" stroke-width="3" stroke-linecap="round"/>
+    <line x1="4" y1="-6" x2="12" y2="-22" stroke="#5B4FCF" stroke-width="3" stroke-linecap="round"/>
+  </g>
+
+  <!-- Heartbeat/wellness pulse line -->
+  <polyline points="50,1060 100,1060 120,1045 140,1075 160,1040 180,1070 200,1060 300,1060"
+            fill="none" stroke="#FFFFFF" stroke-width="3" opacity="0.25" stroke-linecap="round" stroke-linejoin="round"/>
+
+  <polyline points="500,1070 560,1070 575,1058 590,1080 605,1050 620,1078 635,1070 750,1070"
+            fill="none" stroke="#5B4FCF" stroke-width="3" opacity="0.2" stroke-linecap="round" stroke-linejoin="round"/>
+
+  <!-- Top decorative elements - abstract geometric shapes -->
+  <circle cx="50" cy="30" r="15" fill="#F47920" opacity="0.3"/>
+  <circle cx="750" cy="40" r="20" fill="#FFFFFF" opacity="0.1"/>
+  <rect x="680" y="20" width="12" height="12" fill="#F47920" opacity="0.2" transform="rotate(45 686 26)"/>
+  <polygon points="100,50 108,35 116,50" fill="#FFFFFF" opacity="0.15"/>
+
+  <!-- Small Fibiomet pill/capsule shapes as subtle branding -->
+  <g transform="translate(650, 80)">
+    <rect x="0" y="0" width="24" height="10" rx="5" fill="#F47920" opacity="0.3"/>
+    <rect x="12" y="0" width="12" height="10" rx="5" fill="#FFFFFF" opacity="0.15"/>
+  </g>
+  <g transform="translate(50, 80)">
+    <rect x="0" y="0" width="24" height="10" rx="5" fill="#F47920" opacity="0.3"/>
+    <rect x="12" y="0" width="12" height="10" rx="5" fill="#FFFFFF" opacity="0.15"/>
+  </g>
+
+  <!-- Location pin at start -->
+  <g transform="translate(100, 290)">
+    <path d="M0,-20 C-10,-20 -16,-12 -16,-5 C-16,5 0,18 0,18 C0,18 16,5 16,-5 C16,-12 10,-20 0,-20 Z" fill="#F47920"/>
+    <circle cx="0" cy="-6" r="5" fill="#5B4FCF"/>
+  </g>
+
+  <!-- Location pin at end -->
+  <g transform="translate(760, 730)">
+    <path d="M0,-20 C-10,-20 -16,-12 -16,-5 C-16,5 0,18 0,18 C0,18 16,5 16,-5 C16,-12 10,-20 0,-20 Z" fill="#F47920"/>
+    <circle cx="0" cy="-6" r="5" fill="#FFFFFF"/>
+  </g>
+
+</svg>
