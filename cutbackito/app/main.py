@@ -12,7 +12,7 @@ from fastapi.responses import FileResponse, HTMLResponse, JSONResponse, Redirect
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 
-from .chat_editor import EditPlan, plan_edit
+from .chat_editor import EditPlan, claude_cli_path, plan_edit
 from .config import settings
 from .exporter import export_plan
 from .ffmpeg_utils import probe
@@ -55,7 +55,7 @@ def show_project(project_id: str, request: Request):
         "project.html",
         {
             "state": state,
-            "anthropic_configured": bool(settings.anthropic_api_key),
+            "claude_cli": claude_cli_path(),
             "exports": _list_exports(project_id),
         },
     )
@@ -188,7 +188,7 @@ def delete_project(project_id: str):
 def health():
     return {
         "ok": True,
-        "anthropic_configured": bool(settings.anthropic_api_key),
+        "claude_cli": claude_cli_path(),
         "whisper_model": settings.whisper_model,
     }
 

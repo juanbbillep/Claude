@@ -1,18 +1,23 @@
-"""Chat-driven video editing using Claude.
+"""Chat-driven video editing via the Claude Code CLI (no API key needed).
 
-The user types something like "give me the 3 funniest moments as 30-second
-vertical clips with captions". We feed Claude the multicam-synced transcript
-plus a tool surface (`select_clips`, `pick_camera`, `transcribe_only`,
-`done`) and let it return a structured edit plan we can execute with ffmpeg.
+Shells out to `claude -p` which authenticates against your Claude Pro/Max
+subscription. Zero extra cost: the call is billed against your existing
+Claude Code usage, not against an Anthropic API account.
+
+Prerequisites:
+    - Install Claude Code: https://claude.com/claude-code
+    - Run `claude login` once on the host (or mount ~/.claude into Docker)
+    - The `claude` binary must be on PATH for the user running this app.
 """
 
 from __future__ import annotations
 
 import json
+import re
+import shutil
+import subprocess
 from dataclasses import dataclass
 from typing import Any
-
-import anthropic
 
 from .config import settings
 from .transcription import Transcript
@@ -32,55 +37,39 @@ Guidelines:
 - Use real timestamps from the transcript. Never invent.
 - Default viral clip length is 20-60 seconds. Strict max 90 seconds.
 - For "best moments" / "highlights", look for: emotional peaks, punchlines,
-  questions answered, surprising claims, quotable lines, laughter cues in
-  bracketed transcript notes.
+  questions answered, surprising claims, quotable lines, laughter cues.
 - When unsure which camera, pick the one with the highest sync confidence,
   or "auto" to let the renderer choose.
-- Always emit the `submit_edit_plan` tool exactly once at the end.
 - Do not produce overlapping clips unless the user explicitly asks for it.
 """
 
 
-SUBMIT_TOOL: dict[str, Any] = {
-    "name": "submit_edit_plan",
-    "description": "Final edit plan. Call this exactly once after analysis.",
-    "input_schema": {
-        "type": "object",
-        "properties": {
-            "summary": {
-                "type": "string",
-                "description": "One-paragraph rationale for the chosen clips.",
-            },
-            "clips": {
-                "type": "array",
-                "items": {
-                    "type": "object",
-                    "properties": {
-                        "title": {"type": "string"},
-                        "start": {"type": "number", "description": "Reference-timeline seconds"},
-                        "end": {"type": "number"},
-                        "camera": {
-                            "type": "string",
-                            "description": "Camera name from the metadata, or 'auto'.",
-                        },
-                        "format": {
-                            "type": "string",
-                            "enum": ["vertical_9_16", "landscape_16_9"],
-                        },
-                        "caption": {
-                            "type": "string",
-                            "description": "Optional burned-in subtitle override; empty to use transcript.",
-                        },
-                    },
-                    "required": ["title", "start", "end", "camera", "format"],
-                    "additionalProperties": False,
-                },
-            },
-        },
-        "required": ["summary", "clips"],
-        "additionalProperties": False,
-    },
+JSON_INSTRUCTIONS = """
+RESPONSE FORMAT — STRICT
+========================
+Reply with a single JSON object and NOTHING ELSE. No prose before or after.
+No markdown fences. No comments. Exactly this shape:
+
+{
+  "summary": "one-paragraph rationale for the chosen clips",
+  "clips": [
+    {
+      "title": "short slug for filename",
+      "start": 12.0,
+      "end": 42.0,
+      "camera": "cam_a",
+      "format": "vertical_9_16",
+      "caption": ""
+    }
+  ]
 }
+
+Fields:
+- "start"/"end": floats, seconds in the reference timeline
+- "camera": one of the camera names from the metadata, or "auto"
+- "format": "vertical_9_16" or "landscape_16_9"
+- "caption": optional override; leave "" to burn the transcript instead
+"""
 
 
 @dataclass
@@ -116,13 +105,21 @@ class EditPlan:
         )
 
 
-def _client() -> anthropic.Anthropic:
-    if not settings.anthropic_api_key:
+def claude_cli_path() -> str | None:
+    """Return the absolute path to the `claude` CLI, or None if missing."""
+    return shutil.which("claude")
+
+
+def _check_claude_installed() -> str:
+    path = claude_cli_path()
+    if not path:
         raise RuntimeError(
-            "ANTHROPIC_API_KEY is not set. Add it to .env or your environment "
-            "to use chat editing."
+            "The `claude` CLI is not installed or not on PATH.\n"
+            "Install Claude Code from https://claude.com/claude-code, "
+            "run `claude login`, and make sure the `claude` binary is "
+            "on PATH for the user running this app."
         )
-    return anthropic.Anthropic(api_key=settings.anthropic_api_key)
+    return path
 
 
 def _format_cameras(cameras: list[dict[str, Any]]) -> str:
@@ -143,40 +140,77 @@ def _format_transcript(transcript: Transcript) -> str:
     return "\n".join(lines)
 
 
+_FENCED_JSON = re.compile(r"```(?:json)?\s*(\{.*?\})\s*```", re.DOTALL)
+
+
+def _extract_json(text: str) -> dict[str, Any]:
+    """Parse the assistant's reply as JSON, tolerating fences or stray prose."""
+    text = text.strip()
+    fenced = _FENCED_JSON.search(text)
+    if fenced:
+        text = fenced.group(1)
+    elif not text.startswith("{"):
+        i = text.find("{")
+        if i >= 0:
+            # Scan to the matching closing brace at depth 0
+            depth = 0
+            end = -1
+            for j, ch in enumerate(text[i:], start=i):
+                if ch == "{":
+                    depth += 1
+                elif ch == "}":
+                    depth -= 1
+                    if depth == 0:
+                        end = j + 1
+                        break
+            if end > i:
+                text = text[i:end]
+    return json.loads(text)
+
+
 def plan_edit(
     instruction: str,
     transcript: Transcript,
     cameras: list[dict[str, Any]],
 ) -> EditPlan:
-    """Ask Claude to translate a natural-language edit request into an EditPlan."""
-    client = _client()
+    """Translate a natural-language edit request into an EditPlan via Claude Code."""
+    cli = _check_claude_installed()
 
-    context_block = (
-        f"{_format_cameras(cameras)}\n\n{_format_transcript(transcript)}"
+    full_prompt = "\n\n".join(
+        [
+            SYSTEM_PROMPT,
+            _format_cameras(cameras),
+            _format_transcript(transcript),
+            f"USER INSTRUCTION: {instruction}",
+            JSON_INSTRUCTIONS,
+        ]
     )
 
-    response = client.messages.create(
-        model=settings.claude_model,
-        max_tokens=8192,
-        thinking={"type": "adaptive"},
-        system=[
-            {"type": "text", "text": SYSTEM_PROMPT},
-            {
-                "type": "text",
-                "text": context_block,
-                "cache_control": {"type": "ephemeral"},
-            },
-        ],
-        tools=[SUBMIT_TOOL],
-        tool_choice={"type": "tool", "name": "submit_edit_plan"},
-        messages=[{"role": "user", "content": instruction}],
-    )
+    cmd = [cli, "-p", "--output-format", "text"]
+    if settings.claude_model:
+        cmd += ["--model", settings.claude_model]
 
-    for block in response.content:
-        if block.type == "tool_use" and block.name == "submit_edit_plan":
-            return EditPlan.from_tool_input(block.input)
-
-    raise RuntimeError(
-        "Claude did not return an edit plan. Raw response: "
-        + json.dumps([b.model_dump() for b in response.content], default=str)
+    proc = subprocess.run(
+        cmd,
+        input=full_prompt,
+        capture_output=True,
+        text=True,
+        timeout=settings.claude_timeout_seconds,
     )
+    if proc.returncode != 0:
+        raise RuntimeError(
+            f"`claude` CLI failed (exit {proc.returncode}). "
+            f"stderr: {proc.stderr.strip() or '(empty)'}\n"
+            f"stdout: {proc.stdout.strip()[:400] or '(empty)'}"
+        )
+
+    try:
+        payload = _extract_json(proc.stdout)
+    except json.JSONDecodeError as e:
+        raise RuntimeError(
+            "Claude did not return valid JSON.\n"
+            f"Parse error: {e}\n"
+            f"Raw response (first 800 chars):\n{proc.stdout[:800]}"
+        ) from e
+
+    return EditPlan.from_tool_input(payload)

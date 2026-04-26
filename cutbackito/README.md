@@ -1,33 +1,42 @@
 # Cutbackito
 
-Tu versión de [cutback.video](https://cutback.video) — autohospedable.
+Tu versión autohospedable de [cutback.video](https://cutback.video).
 
 Sube N cámaras (cada una con su audio), Cutbackito las **sincroniza** por
-correlación cruzada de audio, las **transcribe** con Whisper, detecta
-**highlights** automáticos y te deja **editar por chat** con Claude para
-sacar clips verticales tipo OpusClip.
+cross-correlation de audio, las **transcribe** con Whisper local, detecta
+**highlights** automáticos y te deja **editar por chat** usando tu cuenta de
+**Claude Code** — sin API key, cubierto por tu plan Pro/Max.
 
 ## Stack
 
-- **FastAPI** + Jinja2 (UI sin build step)
-- **ffmpeg** + numpy/scipy (sync multicam por FFT cross-correlation)
-- **faster-whisper** (transcripción local, 100+ idiomas, sin API externa)
-- **Anthropic Claude** (`claude-opus-4-7` por defecto, adaptive thinking +
-  prompt caching) para el chat editing
-- **HTML/CSS/JS vanilla** — cero build step
-- Empaquetado en Docker, desplegable en cualquier sitio (NO Vercel)
+- **FastAPI + Jinja2 + JS vanilla** (cero build step)
+- **ffmpeg + numpy/scipy** para sync multicam
+- **faster-whisper** local (100+ idiomas, sin API externa)
+- **Claude Code CLI** (`claude -p`) para el chat editor — usa tu suscripción
+  Pro/Max, **no necesita `ANTHROPIC_API_KEY`**
+- Empaquetado en Docker, desplegable en cualquier sitio
 
-## Quickstart local
+## Pre-requisitos
 
-Necesitas Python 3.11+, ffmpeg en el PATH y (opcional) una API key de Anthropic.
+1. **Python 3.11+** y **ffmpeg** en el PATH.
+2. **Claude Code instalado y logueado**:
+   ```bash
+   # Instalar (cualquier plataforma)
+   npm install -g @anthropic-ai/claude-code
+   # o sigue las instrucciones de https://claude.com/claude-code
+
+   claude login        # autentica con tu cuenta Pro/Max
+   claude --version    # confirma que está en PATH
+   ```
+
+## Quickstart local (Python nativo)
 
 ```bash
 cd cutbackito
 python -m venv .venv && source .venv/bin/activate
 pip install -r requirements.txt
 
-cp .env.example .env
-# edita .env y pega tu ANTHROPIC_API_KEY
+cp .env.example .env   # edita si quieres pinear modelo o cambiar timeouts
 
 uvicorn app.main:app --reload
 # abre http://localhost:8000
@@ -37,30 +46,40 @@ La primera transcripción descarga el modelo Whisper (`small` por defecto, ~500 
 
 ## Quickstart con Docker
 
+El Dockerfile incluye Node.js + Claude Code CLI, pero la **autenticación se
+inherita del host** vía un bind-mount de `~/.claude`:
+
 ```bash
-cp .env.example .env   # añade tu ANTHROPIC_API_KEY
+# Una vez en el host:
+npm install -g @anthropic-ai/claude-code
+claude login
+
+# Luego:
+cd cutbackito
 docker compose up --build
 # http://localhost:8000
 ```
 
+En Windows reemplaza `~/.claude` por `%USERPROFILE%\.claude` en
+`docker-compose.yml`.
+
 ## Despliegue (NO Vercel)
 
-Como se construyó con Docker plano, corre en cualquier infra:
+Como el cliente de Claude vive como subprocess, el host de despliegue
+necesita poder ejecutar `claude` (Node.js + tu auth). Opciones:
 
-| Plataforma     | Cómo                                                                |
-|----------------|---------------------------------------------------------------------|
-| **Railway**    | Conecta el repo. Detecta `railway.json`. Añade volumen en `/data`.  |
-| **Fly.io**     | `fly launch --copy-config` (usa el `fly.toml` incluido).            |
-| **Render**     | "New Web Service" → Docker. Disco persistente en `/data`.           |
-| **Hetzner / VPS** | `docker compose up -d` detrás de Caddy o Nginx con HTTPS.        |
-| **Hugging Face Spaces** | Tipo "Docker". Para demos públicas.                        |
+| Plataforma          | Cómo                                                                |
+|---------------------|---------------------------------------------------------------------|
+| **Tu propio PC / VPS** | Lo más simple. `docker compose up -d` detrás de Caddy/Nginx.    |
+| **Hetzner / DigitalOcean / Linode** | Igual: VPS + Docker + bind-mount de `~/.claude`.   |
+| **Railway / Fly.io / Render** | Más complicado: necesitarías meter `~/.claude` como secret y configurarlo en startup. Para uso personal, el VPS propio es mejor. |
 
-Variables de entorno relevantes:
+Variables de entorno relevantes (`.env`):
 
 | Variable | Por defecto | Para qué |
 |---|---|---|
-| `ANTHROPIC_API_KEY` | _vacío_ | Habilita el chat editor. Sin esto, todo lo demás funciona. |
-| `CLAUDE_MODEL` | `claude-opus-4-7` | Cualquier model id válido de Claude |
+| `CLAUDE_MODEL` | _vacío_ (default de Claude Code) | `claude-sonnet-4-6`, `claude-opus-4-7`, etc. |
+| `CLAUDE_TIMEOUT_SECONDS` | `300` | Cuánto esperar a `claude -p` |
 | `WHISPER_MODEL` | `small` | `tiny`, `base`, `small`, `medium`, `large-v3` |
 | `WHISPER_DEVICE` | `cpu` | `cuda` si tienes GPU |
 | `WHISPER_COMPUTE_TYPE` | `int8` | `float16` con CUDA |
@@ -70,19 +89,14 @@ Variables de entorno relevantes:
 ## Flujo de uso
 
 1. **+ Nuevo proyecto** en la home.
-2. **Sube** tus 3 cámaras (cada archivo debe tener pista de audio — la de la
-   cámara o un externo). El audio común es lo que se usa para alinear.
-3. Pulsa **Calcular offsets**: Cutbackito genera un PCM mono 8 kHz por
-   fuente, hace FFT cross-correlation contra la primera y devuelve el offset
-   de cada cámara con su confianza.
-4. **Transcribir**: usa la cámara con mayor confianza de sync como
-   referencia.
-5. **Highlights** (opcional): preview rápido por heurística (energía + risas
-   + frases quotables + densidad léxica).
-6. **Editar por chat**: pídele a Claude lo que quieras —
+2. **Sube** tus N cámaras (cada archivo debe tener pista de audio).
+3. **Calcular offsets**: FFT cross-correlation contra la primera fuente.
+4. **Transcribir**: usa la cámara con mayor confianza de sync.
+5. **Highlights** (opcional): heurística rápida sobre transcript + audio.
+6. **Editar por chat**: pídele lo que quieras —
    *"dame los 3 momentos más graciosos como verticales 9:16 de 30s con
-   captions"*. Claude devuelve un EditPlan estructurado (vía tool use) que se
-   renderiza inmediatamente con ffmpeg.
+   captions"*. Claude devuelve un JSON con un EditPlan que se renderiza
+   inmediatamente con ffmpeg.
 7. Descarga los clips desde la sección **Exports**.
 
 ## Arquitectura
@@ -94,23 +108,33 @@ app/
   multicam_sync.py    – FFT cross-correlation, common window
   transcription.py    – wrapper de faster-whisper, SRT
   highlights.py       – heurística audio + transcript
-  chat_editor.py      – Claude con system prompt + tool `submit_edit_plan`
+  chat_editor.py      – subprocess a `claude -p`, parser JSON
   exporter.py         – EditPlan → archivos mp4 (vertical o landscape)
   projects.py         – estado JSON por proyecto
   main.py             – endpoints FastAPI + UI
   templates/, static/ – Jinja + CSS/JS vanilla
 ```
 
-El **chat editor** usa prompt caching en el contexto pesado (cámaras +
-transcripción), así que la segunda iteración cuesta ~10× menos.
+## Por qué subprocess y no la API de Anthropic
+
+La API de Claude (`api.anthropic.com`) se factura aparte de tu suscripción
+Pro/Max. Si tu plan ya cubre Claude Code, lo correcto es invocar la CLI
+oficial — `claude -p "prompt"` — desde Python como un subprocess. Es
+exactamente como si tú escribieras el prompt en una terminal: cuenta contra
+tu uso de Claude Code, no contra una cuenta API independiente.
+
+El Agent SDK de Anthropic NO permite usar suscripciones Pro/Max programáticamente
+(lo prohíbe explícitamente en sus términos), pero llamar a la CLI desde tu
+propia máquina sí está permitido — es uso normal de Claude Code.
 
 ## Limitaciones conocidas
 
-- Sync por audio asume un audio compartido razonablemente reconocible entre
-  cámaras (audio de cámara, o un audio externo presente en todas las pistas).
-  Si una cámara estaba en otra sala, el offset será ruidoso.
-- Whisper `small` es buen balance calidad/velocidad pero no perfecto. Sube a
-  `medium` o `large-v3` si necesitas captions de mayor calidad.
+- Sync por audio asume audio compartido razonablemente reconocible entre
+  cámaras (de cámara o externo). Si una cámara estaba en otra sala, ruido.
+- Whisper `small` es buen balance calidad/velocidad. Sube a `medium` o
+  `large-v3` si necesitas captions premium.
 - El renderer vertical es center-crop simple. Para auto-framing por sujeto
   (estilo Opus AI Reframe) habría que añadir tracking facial.
-- No hay multiusuario / auth. Pensado para uso personal o detrás de un proxy.
+- El subprocess a `claude -p` tiene cold-start de ~2-3s. Despreciable para
+  prompts largos pero notable si haces muchas requests pequeñas.
+- Sin multiusuario / auth. Para uso personal o detrás de un proxy.

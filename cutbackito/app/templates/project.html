@@ -41,13 +41,19 @@
 </section>
 
 <section class="card">
-  <h2>5. Editar por chat (Claude)</h2>
-  {% if not anthropic_configured %}
-    <p class="warn">⚠ <code>ANTHROPIC_API_KEY</code> no está configurada. Agrégala a <code>.env</code> para usar el chat editor.</p>
+  <h2>5. Editar por chat (Claude Code)</h2>
+  {% if not claude_cli %}
+    <p class="warn">
+      ⚠ El CLI <code>claude</code> no está disponible en este host.
+      Instala Claude Code desde <a href="https://claude.com/claude-code">claude.com/claude-code</a>,
+      ejecuta <code>claude login</code> y reinicia esta app. Tu plan Pro/Max cubre el uso — no necesitas API key.
+    </p>
+  {% else %}
+    <p class="muted">Usando <code>{{ claude_cli }}</code> · cubierto por tu suscripción de Claude Code.</p>
   {% endif %}
   <form id="chat-form" data-project="{{ state.id }}">
     <textarea name="instruction" rows="3" placeholder="Ej: dame los 3 momentos más graciosos como clips verticales de 30s con captions"></textarea>
-    <button class="btn-primary" type="submit" {% if not anthropic_configured %}disabled{% endif %}>
+    <button class="btn-primary" type="submit" {% if not claude_cli %}disabled{% endif %}>
       Generar clips
     </button>
   </form>

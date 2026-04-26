@@ -7,14 +7,22 @@ ENV PYTHONUNBUFFERED=1 \
     WORKSPACE_DIR=/data \
     WHISPER_MODEL=small \
     WHISPER_DEVICE=cpu \
-    WHISPER_COMPUTE_TYPE=int8
+    WHISPER_COMPUTE_TYPE=int8 \
+    NODE_MAJOR=20
 
+# System deps + Node.js (for Claude Code CLI)
 RUN apt-get update && apt-get install -y --no-install-recommends \
         ffmpeg \
         libsndfile1 \
         ca-certificates \
         curl \
+        gnupg \
+    && curl -fsSL https://deb.nodesource.com/setup_${NODE_MAJOR}.x | bash - \
+    && apt-get install -y --no-install-recommends nodejs \
     && rm -rf /var/lib/apt/lists/*
+
+# Claude Code CLI — auth comes from the host-mounted ~/.claude volume
+RUN npm install -g @anthropic-ai/claude-code
 
 WORKDIR /app
 

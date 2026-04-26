@@ -4,13 +4,18 @@ services:
     ports:
       - "8000:8000"
     environment:
-      ANTHROPIC_API_KEY: ${ANTHROPIC_API_KEY:-}
+      CLAUDE_MODEL: ${CLAUDE_MODEL:-}
+      CLAUDE_TIMEOUT_SECONDS: ${CLAUDE_TIMEOUT_SECONDS:-300}
       WHISPER_MODEL: ${WHISPER_MODEL:-small}
       WHISPER_DEVICE: ${WHISPER_DEVICE:-cpu}
       WHISPER_COMPUTE_TYPE: ${WHISPER_COMPUTE_TYPE:-int8}
       MAX_UPLOAD_MB: ${MAX_UPLOAD_MB:-2048}
     volumes:
       - cutbackito_data:/data
+      # Mount your host's Claude Code auth so the container uses your Pro/Max plan.
+      # Run `claude login` on the host first. On Windows, replace ~/.claude with
+      # %USERPROFILE%\.claude.
+      - ${HOME:-~}/.claude:/root/.claude
     restart: unless-stopped
 
 volumes:
