@@ -1,0 +1,71 @@
+{% extends "base.html" %}
+{% block title %}Proyecto {{ state.id }}{% endblock %}
+{% block content %}
+<a class="back-link" href="/">&larr; todos los proyectos</a>
+<h1>Proyecto <code>{{ state.id }}</code></h1>
+
+<section class="card">
+  <h2>1. Subir cámaras</h2>
+  <p class="muted">Cada archivo debe tener pista de audio (cámara o externo).</p>
+  <form action="/projects/{{ state.id }}/sources" method="post" enctype="multipart/form-data">
+    <input type="file" name="files" multiple accept="video/*,audio/*" required />
+    <button class="btn-primary" type="submit">Subir</button>
+  </form>
+  {% if state.sources %}
+    <ul class="file-list">
+      {% for s in state.sources %}<li>{{ s.split('/')[-1] }}</li>{% endfor %}
+    </ul>
+  {% endif %}
+</section>
+
+<section class="card">
+  <h2>2. Sincronizar multicam</h2>
+  <button class="btn" data-action="sync" data-project="{{ state.id }}">Calcular offsets</button>
+  <pre id="sync-output" class="output">{% if state.sync %}{{ state.sync | tojson(indent=2) }}{% endif %}</pre>
+</section>
+
+<section class="card">
+  <h2>3. Transcribir</h2>
+  <p class="muted">Usa la cámara con mayor confianza de sync. Idioma autodetectado.</p>
+  <button class="btn" data-action="transcribe" data-project="{{ state.id }}">Transcribir con Whisper</button>
+  <pre id="transcribe-output" class="output">
+{% if state.transcript_language %}Idioma: {{ state.transcript_language }}{% endif %}
+  </pre>
+</section>
+
+<section class="card">
+  <h2>4. Highlights automáticos</h2>
+  <p class="muted">Heurística rápida sobre transcript + energía de audio.</p>
+  <button class="btn" data-action="highlights" data-project="{{ state.id }}">Detectar highlights</button>
+  <pre id="highlights-output" class="output">{% if state.highlights %}{{ state.highlights | tojson(indent=2) }}{% endif %}</pre>
+</section>
+
+<section class="card">
+  <h2>5. Editar por chat (Claude)</h2>
+  {% if not anthropic_configured %}
+    <p class="warn">⚠ <code>ANTHROPIC_API_KEY</code> no está configurada. Agrégala a <code>.env</code> para usar el chat editor.</p>
+  {% endif %}
+  <form id="chat-form" data-project="{{ state.id }}">
+    <textarea name="instruction" rows="3" placeholder="Ej: dame los 3 momentos más graciosos como clips verticales de 30s con captions"></textarea>
+    <button class="btn-primary" type="submit" {% if not anthropic_configured %}disabled{% endif %}>
+      Generar clips
+    </button>
+  </form>
+  <pre id="chat-output" class="output"></pre>
+</section>
+
+<section class="card">
+  <h2>6. Exports</h2>
+  {% if exports %}
+    <ul class="export-list">
+      {% for f in exports %}
+        <li>
+          <a href="/projects/{{ state.id }}/exports/{{ f }}" download>{{ f }}</a>
+        </li>
+      {% endfor %}
+    </ul>
+  {% else %}
+    <p class="muted">Aún no hay clips exportados.</p>
+  {% endif %}
+</section>
+{% endblock %}

@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="hero">
+  <h1>Sincroniza 3 cámaras. Transcribe. Edita por chat. Exporta clips virales.</h1>
+  <p class="lead">
+    Sube las grabaciones de tus cámaras (con su audio o un audio externo),
+    deja que Cutbackito alinee todo por correlación de audio, transcriba con
+    Whisper y use Claude para cortar los mejores momentos en formato vertical
+    listo para subir.
+  </p>
+  <form action="/projects" method="post">
+    <button class="btn-primary" type="submit">+ Nuevo proyecto</button>
+  </form>
+</section>
+
+<section class="card">
+  <h2>Proyectos</h2>
+  {% if projects %}
+    <ul class="project-list">
+      {% for p in projects %}
+        <li>
+          <a href="/projects/{{ p.id }}">
+            <strong>{{ p.id }}</strong>
+            <span class="muted">{{ p.created_at }}</span>
+            <span class="muted">{{ p.sources|length }} fuentes</span>
+          </a>
+        </li>
+      {% endfor %}
+    </ul>
+  {% else %}
+    <p class="muted">Todavía no hay proyectos. Crea el primero arriba.</p>
+  {% endif %}
+</section>
+
+<section class="card">
+  <h2>Cómo funciona</h2>
+  <ol class="steps">
+    <li><strong>Sube</strong> 1–N videos (cámara + audio cada uno).</li>
+    <li><strong>Sincroniza</strong>: cross-correlation de audio para alinear todo a una línea de tiempo común.</li>
+    <li><strong>Transcribe</strong> con faster-whisper (local, 100+ idiomas).</li>
+    <li><strong>Highlights</strong>: heurística por energía + risas + frases quotables.</li>
+    <li><strong>Chat-edit</strong>: pide en lenguaje natural ("dame los 3 momentos más graciosos en vertical 30s") y Claude devuelve un plan que se renderiza con ffmpeg.</li>
+  </ol>
+</section>
+{% endblock %}

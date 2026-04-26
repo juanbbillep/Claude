@@ -1,0 +1,17 @@
+services:
+  cutbackito:
+    build: .
+    ports:
+      - "8000:8000"
+    environment:
+      ANTHROPIC_API_KEY: ${ANTHROPIC_API_KEY:-}
+      WHISPER_MODEL: ${WHISPER_MODEL:-small}
+      WHISPER_DEVICE: ${WHISPER_DEVICE:-cpu}
+      WHISPER_COMPUTE_TYPE: ${WHISPER_COMPUTE_TYPE:-int8}
+      MAX_UPLOAD_MB: ${MAX_UPLOAD_MB:-2048}
+    volumes:
+      - cutbackito_data:/data
+    restart: unless-stopped
+
+volumes:
+  cutbackito_data:

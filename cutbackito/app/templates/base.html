@@ -1,0 +1,22 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>{% block title %}Cutbackito{% endblock %}</title>
+  <link rel="stylesheet" href="/static/css/app.css" />
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="/">Cutbackito<span class="brand-dot">.</span></a>
+    <span class="tagline">multicam · transcribe · chat-edit · viral clips</span>
+  </header>
+  <main class="container">
+    {% block content %}{% endblock %}
+  </main>
+  <footer class="footer">
+    <span>self-hosted · ffmpeg + faster-whisper + Claude</span>
+  </footer>
+  <script src="/static/js/app.js" defer></script>
+</body>
+</html>
