@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ClipForge — Editor de Video</title>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">
+      <span class="logo">▶</span>
+      <span class="title">ClipForge</span>
+      <span class="subtitle">editor de video + texto</span>
+    </div>
+    <div class="topbar-actions">
+      <button id="btn-add-text" class="btn">+ Texto</button>
+      <button id="btn-split" class="btn" title="Cortar clip en el playhead (S)">✂ Cortar</button>
+      <button id="btn-delete" class="btn" title="Borrar clip (Supr)">🗑 Borrar</button>
+      <span class="sep"></span>
+      <button id="btn-export" class="btn btn-primary">⬇ Exportar</button>
+    </div>
+  </header>
+
+  <main class="workspace">
+    <aside class="panel media-panel">
+      <div class="panel-header">
+        <h3>Medios</h3>
+        <label class="btn btn-sm">
+          + Importar
+          <input type="file" id="file-input" accept="video/*" multiple hidden />
+        </label>
+      </div>
+      <div class="dropzone" id="dropzone">
+        <p>Arrastra videos aquí<br /><small>o usa el botón Importar</small></p>
+      </div>
+      <ul id="media-list" class="media-list"></ul>
+    </aside>
+
+    <section class="panel preview-panel">
+      <div class="preview-wrap">
+        <canvas id="preview" width="1280" height="720"></canvas>
+      </div>
+      <div class="transport">
+        <button id="btn-rewind" class="btn-icon" title="Inicio">⏮</button>
+        <button id="btn-play" class="btn-icon btn-play" title="Reproducir/Pausar (Espacio)">▶</button>
+        <button id="btn-end" class="btn-icon" title="Fin">⏭</button>
+        <span class="time" id="time-display">00:00.00 / 00:00.00</span>
+      </div>
+    </section>
+
+    <aside class="panel inspector-panel">
+      <div class="panel-header"><h3>Inspector</h3></div>
+      <div id="inspector" class="inspector">
+        <p class="hint">Selecciona un clip en la línea de tiempo.</p>
+      </div>
+    </aside>
+  </main>
+
+  <section class="timeline-section">
+    <div class="timeline-header">
+      <div class="track-labels">
+        <div class="track-label">Texto</div>
+        <div class="track-label">Video</div>
+      </div>
+      <div class="ruler-wrap">
+        <canvas id="ruler" height="24"></canvas>
+        <div class="tracks-wrap">
+          <div class="track" id="track-text" data-track="text"></div>
+          <div class="track" id="track-video" data-track="video"></div>
+          <div class="playhead" id="playhead"></div>
+        </div>
+      </div>
+    </div>
+    <div class="timeline-footer">
+      <label>Zoom <input type="range" id="zoom" min="20" max="400" value="80" /></label>
+      <span class="hint">Espacio: play · S: cortar · Supr: borrar · Arrastra los clips para reordenarlos</span>
+    </div>
+  </section>
+
+  <div id="export-modal" class="modal hidden">
+    <div class="modal-card">
+      <h3>Exportar video</h3>
+      <p id="export-status">Preparando…</p>
+      <progress id="export-progress" max="100" value="0"></progress>
+      <div class="modal-actions">
+        <button id="export-cancel" class="btn">Cancelar</button>
+        <a id="export-download" class="btn btn-primary hidden" download="export.webm">Descargar</a>
+      </div>
+    </div>
+  </div>
+
+  <script type="module" src="js/app.js"></script>
+</body>
+</html>
